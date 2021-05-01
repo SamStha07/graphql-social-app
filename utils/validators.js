@@ -24,7 +24,7 @@ module.exports.validateRegisterInput = (
 
   return {
     errors,
-    valid: Object.keys(errors).length < 1, // < 1 there are no errors, Object.keys le {} object lai [] array ma convert garxa
+    valid: Object.keys(errors).length < 1, // NOTE < 1 there are no errors, Object.keys le {} object lai [] array ma convert garxa
   };
 };
 

@@ -1,7 +1,7 @@
 const { model, Schema } = require('mongoose');
 
 const userSchema = new Schema({
-  // we will handle required fields from graphql
+  // NOTE we will handle validations from graphql
   username: String,
   password: String,
   email: String,

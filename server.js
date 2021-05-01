@@ -1,4 +1,4 @@
-const { ApolloServer } = require('apollo-server');
+const { ApolloServer, PubSub } = require('apollo-server');
 const gql = require('graphql-tag');
 const mongoose = require('mongoose');
 
@@ -8,36 +8,13 @@ const { MONGODB } = require('./config.js');
 const typeDefs = require('./graphql/typeDefs');
 const resolvers = require('./graphql/resolvers/index');
 
-// const typeDefs = gql`
-//   type Post {
-//     id: ID!
-//     body: String!
-//     createdAt: String!
-//     username: String!
-//   }
-//   type Query {
-//     # sayHi: String! #! = require
-//     getPosts: [Post]
-//   }
-// `;
-
-// const resolvers = {
-//   Query: {
-//     // sayHi: () => 'Hello World!!!',
-//     async getPosts() {
-//       try {
-//         const posts = await Post.find();
-//         return posts;
-//       } catch (err) {
-//         throw new Error(err);
-//       }
-//     },
-//   },
-// };
+// for subscription
+const pubsub = new PubSub();
 
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  context: ({ req }) => ({ req, pubsub }),
 });
 
 mongoose

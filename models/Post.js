@@ -1,7 +1,7 @@
 const { model, Schema } = require('mongoose');
 
 const postSchema = new Schema({
-  // we will handle required fields from graphql
+  // NOTE we will handle required fields from graphql
   body: String,
   username: String,
   createdAt: String,

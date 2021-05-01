@@ -22,15 +22,25 @@ const generateToken = (user) => {
 };
 
 module.exports = {
+  Query: {
+    async getUsers() {
+      try {
+        const users = await User.find();
+        return users;
+      } catch (err) {
+        throw new Error(err);
+      }
+    },
+  },
   Mutation: {
     async login(_, { username, password }) {
-      // validate login data
+      // NOTE validate login data
       const { errors, valid } = validateLoginInput(username, password);
       if (!valid) {
         throw new UserInputError('Errors', { errors });
       }
 
-      // find user
+      // NOTE find user
       const user = await User.findOne({ username });
 
       if (!user) {
@@ -38,7 +48,7 @@ module.exports = {
         throw new UserInputError('User not found', { errors });
       }
 
-      // compare both password and hash password(user.password which is hashed using bcrypt)
+      // NOTE compare both password and hash password(user.password which is hashed using bcrypt)
       const match = await bcrypt.compare(password, user.password);
 
       if (!match) {
@@ -59,7 +69,7 @@ module.exports = {
       context,
       info
     ) {
-      // validate user data
+      // NOTE validate user data
       const { valid, errors } = validateRegisterInput(
         username,
         email,
@@ -70,7 +80,7 @@ module.exports = {
         throw new UserInputError('Errors', { errors });
       }
 
-      // Make sure user doesn't already exist
+      // NOTE Make sure user doesn't already exist
       const user = await User.findOne({ username });
       if (user) {
         throw new UserInputError('Username is taken', {
@@ -80,7 +90,7 @@ module.exports = {
         });
       }
 
-      // hash password and create an auth token
+      // NOTE hash password and create an auth token
       password = await bcrypt.hash(password, 12);
 
       const newUser = new User({
