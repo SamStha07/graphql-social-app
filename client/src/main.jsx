@@ -8,9 +8,14 @@ import App from './App';
 import { ApolloClient, InMemoryCache } from '@apollo/client';
 import { ApolloProvider } from '@apollo/client/react';
 
+const token = localStorage.getItem('jwtToken');
+
 const client = new ApolloClient({
   uri: 'http://localhost:5000',
   cache: new InMemoryCache(),
+  headers: {
+    authorization: token ? `Bearer ${token}` : '',
+  },
 });
 
 ReactDOM.render(

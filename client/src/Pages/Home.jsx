@@ -1,12 +1,16 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 import { gql, useQuery } from '@apollo/client';
 
-import { Grid, Image } from 'semantic-ui-react';
+import { Grid, Image, Transition } from 'semantic-ui-react';
 import PostCard from '../Components/PostCard';
+import PostForm from '../Components/PostForm';
+import { AuthContext } from '../Context/Auth';
 
 const Home = () => {
   const { loading, error, data } = useQuery(FETCH_POSTS_QUERY);
+
+  const { user } = useContext(AuthContext);
 
   if (error) {
     return `Error: ${error.message}`;
@@ -16,11 +20,17 @@ const Home = () => {
     <Grid columns={3}>
       <Grid.Row className='page-title'>Recent Posts</Grid.Row>
 
+      {user && (
+        <Grid.Row>
+          <PostForm />
+        </Grid.Row>
+      )}
+
       <Grid.Row>
         {loading ? (
           <p>Loading</p>
         ) : (
-          <>
+          <Transition.Group>
             {data &&
               data.getPosts &&
               data.getPosts.map((post) => (
@@ -28,7 +38,7 @@ const Home = () => {
                   <PostCard post={post} />
                 </Grid.Column>
               ))}
-          </>
+          </Transition.Group>
         )}
       </Grid.Row>
     </Grid>

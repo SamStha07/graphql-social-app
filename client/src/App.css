@@ -10,3 +10,13 @@
   margin: auto;
   margin-top: 2rem;
 }
+
+.post-form-wrapper {
+  width: 50%;
+  margin: auto;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  border: 1px solid #a0937d;
+  border-radius: 2px;
+  padding: 2rem 1.5rem;
+}
